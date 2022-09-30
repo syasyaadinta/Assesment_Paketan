@@ -46,6 +46,7 @@ public class Activity {
     @Column(name = "Status")
     private String status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<History> historyList;
 
