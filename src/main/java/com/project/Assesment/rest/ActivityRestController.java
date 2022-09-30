@@ -121,23 +121,24 @@ public class ActivityRestController {
         }
     }
 
-//    // -- PAGEABLE RESERVATION
-//    @Operation(summary="Mendapatkan data Reservation.", description = "Data akan di respond dalam jumlah 3 per halaman.")
-//    @ApiResponses( value = {
-//            @ApiResponse(responseCode = "200", description = "View All Reservation Grid",
-//                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-//                            schema = @Schema(implementation = Reservation.class))}),
-//            @ApiResponse(responseCode = "404", description = "Page not found",
-//                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
-//    })
-//    @GetMapping("/reservation/page={page}&fullName={fullName}&roomNumber={roomNumber}")
-//    public ResponseEntity<Object> getAllReservation(@PathVariable(required = false) Integer page,
-//                                                    @PathVariable(required = false) String fullName,
-//                                                    @PathVariable(required = false) String roomNumber){
-//        Pageable pagination = PageRequest.of(page - 1, 3, Sort.by("customer.firstName"));
-//        Page<ReservationGridDTO> grid = reservationService.findAllReserve(fullName, roomNumber, pagination);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(grid);
-//    }
+    // -- PAGEABLE ACTIVITY
+    @Operation(summary="Mendapatkan data Activity.", description = "Data akan di respond dalam jumlah 3 per halaman.")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "View All Activity Grid",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Activity.class))}),
+            @ApiResponse(responseCode = "404", description = "Page not found",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @GetMapping("/activity/page")
+    public ResponseEntity<Object> getAllAdmin(@RequestParam(defaultValue = "1") Integer page){
+        try{
+            Pageable pageable = PageRequest.of(page - 1, 2, Sort.by("activityId"));
+            Page<Activity> all = activityService.findAllPage(pageable);
+            return new ResponseEntity<>(all, HttpStatus.OK);
+        } catch (Exception exception){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There is a run-time error on the server.");
+        }
+    }
 
 }

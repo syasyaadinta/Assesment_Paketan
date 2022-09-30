@@ -12,6 +12,8 @@ import com.project.Assesment.entity.Customer;
 import com.project.Assesment.entity.History;
 import com.project.Assesment.entity.Variant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -90,6 +92,11 @@ public class ActivityServiceImpl implements ActivityService{
         );
         Activity update  = activityRepository.save(updateActivity);
         return update.getActivityId();
+    }
+
+    @Override
+    public Page<Activity> findAllPage(Pageable pageable) {
+        return activityRepository.findAllPage(pageable);
     }
 
 }
